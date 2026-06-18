@@ -1,0 +1,23 @@
+<!-- @dsCard group="Spacing" viewport="700x160" name="Radius & Shadow" subtitle="Corner radii + warm-tinted elevation" -->
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; font-family: var(--font-sans); background: var(--surface-app); padding: 22px; display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+  .box { width: 80px; height: 60px; background: var(--surface-card); display: flex; align-items: flex-end; justify-content: center; padding: 6px; box-sizing: border-box; }
+  .b { border: 1px solid var(--border-subtle); }
+  .t { font-size: 10px; color: var(--text-muted); font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="box b" style="border-radius:var(--r-seal)"><span class="t">seal 6</span></div>
+  <div class="box b" style="border-radius:var(--r-sm)"><span class="t">sm 8</span></div>
+  <div class="box b" style="border-radius:var(--r-md)"><span class="t">md 12</span></div>
+  <div class="box b" style="border-radius:var(--r-lg)"><span class="t">lg 18</span></div>
+  <div class="box" style="border-radius:var(--r-md);box-shadow:var(--shadow-sm)"><span class="t">sm</span></div>
+  <div class="box" style="border-radius:var(--r-md);box-shadow:var(--shadow-md)"><span class="t">md</span></div>
+  <div class="box" style="border-radius:var(--r-md);box-shadow:var(--shadow-brand)"><span class="t">brand</span></div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+/* ============================================================
+   万年历 · Typography tokens
+   Substituted with Google Fonts (Noto family + Ma Shan Zheng).
+   See readme.md → "Font substitution" — swap in licensed
+   webfont binaries for production.
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&family=Noto+Sans+SC:wght@400;500;700;900&family=Ma+Shan+Zheng&display=swap');
+
+:root {
+  /* ---- Families ---- */
+  --font-serif:   "Noto Serif SC", "Songti SC", "STSong", serif;       /* 宋 — display, dates, lunar */
+  --font-sans:    "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; /* UI, body */
+  --font-brush:   "Ma Shan Zheng", "Noto Serif SC", cursive;            /* 书法 — blessings, 福, festive */
+  --font-num:     "Noto Serif SC", Georgia, serif;                      /* big numerals */
+
+  /* ---- Type scale (mobile-first) ---- */
+  --fs-hero:    64px;   /* day-of-month numeral */
+  --fs-display: 40px;
+  --fs-title:   28px;
+  --fs-h1:      22px;
+  --fs-h2:      18px;
+  --fs-body:    16px;
+  --fs-sub:     14px;
+  --fs-caption: 12px;
+  --fs-micro:   10px;
+
+  /* ---- Weights ---- */
+  --fw-regular: 400;     /* @kind font */
+  --fw-medium:  500;     /* @kind font */
+  --fw-bold:    700;     /* @kind font */
+  --fw-black:   900;     /* @kind font */
+
+  /* ---- Line heights ---- */
+  --lh-tight:  1.1;      /* @kind font */
+  --lh-snug:   1.3;      /* @kind font */
+  --lh-normal: 1.55;     /* @kind font */
+  --lh-loose:  1.8;      /* @kind font */
+
+  /* ---- Letter spacing ---- */
+  --ls-tight:  -0.01em;  /* @kind font */
+  --ls-normal: 0;        /* @kind font */
+  --ls-wide:   0.08em;   /* @kind font */
+  --ls-brush:  0.12em;   /* @kind font */
+}

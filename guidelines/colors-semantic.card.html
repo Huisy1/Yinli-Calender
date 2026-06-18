@@ -1,0 +1,28 @@
+<!-- @dsCard group="Colors" viewport="700x150" name="Semantic & Surfaces" subtitle="宜/忌/节气 semantics + warm paper surfaces" -->
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; font-family: var(--font-sans); background: var(--surface-app); padding: 18px; }
+  .row { display: flex; gap: 10px; margin-bottom: 8px; }
+  .sw { flex: 1; height: 56px; border-radius: var(--r-sm); display: flex; flex-direction: column; justify-content: flex-end; padding: 7px; box-sizing: border-box; border: 1px solid var(--border-subtle); }
+  .sw .n { font-size: 10px; font-weight: 700; }
+  .sw .h { font-size: 8px; opacity: 0.75; font-family: var(--font-num); }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="sw" style="background:var(--good);color:#fff"><span class="n">宜 good</span><span class="h">#2F8F6B</span></div>
+    <div class="sw" style="background:var(--avoid);color:#fff"><span class="n">忌 avoid</span><span class="h">#B5471F</span></div>
+    <div class="sw" style="background:var(--info);color:#fff"><span class="n">节气 info</span><span class="h">#2C6BB0</span></div>
+  </div>
+  <div class="row">
+    <div class="sw" style="background:var(--paper-0)"><span class="n">card</span><span class="h">#FFFFFF</span></div>
+    <div class="sw" style="background:var(--paper-1)"><span class="n">app</span><span class="h">#FFFBF8</span></div>
+    <div class="sw" style="background:var(--paper-2)"><span class="n">sunken</span><span class="h">#FDF3EE</span></div>
+    <div class="sw" style="background:var(--paper-3)"><span class="n">brand-soft</span><span class="h">#FBE9E2</span></div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- @template name="今日 · Day Poster" description="Shareable daily card — solar+lunar date, 黄历 宜忌, and a 每日祝福 blessing." -->
+<helmet>
+<script src="./ds-base.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700;900&family=Noto+Sans+SC:wght@400;500;700&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+</helmet>
+<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 25%,#FBE9E2,#EAD0C6 80%);padding:40px;box-sizing:border-box;font-family:'Noto Sans SC',sans-serif;">
+  <div style="width:420px;background:#FFFBF8;border-radius:26px;box-shadow:0 30px 80px rgba(94,12,16,0.22);overflow:hidden;border:1px solid #EBE3DE;">
+
+    <!-- header band -->
+    <div style="background:#C8161E;border-bottom:3px solid #CBA24A;padding:26px 28px 22px;display:flex;align-items:flex-start;justify-content:space-between;">
+      <div>
+        <div style="color:#FBF1D6;font-size:14px;font-weight:700;letter-spacing:0.08em;">2026年 6月</div>
+        <div style="font-family:'Noto Serif SC',serif;color:#fff;font-size:88px;font-weight:700;line-height:0.95;margin-top:2px;">17</div>
+        <div style="color:#fff;font-size:15px;margin-top:4px;">星期三 · 农历五月廿三</div>
+      </div>
+      <x-import component-from-global-scope="CalendarDesignSystem_398bab.SealStamp" char="福" size="60" hint-size="60px,60px"></x-import>
+    </div>
+
+    <!-- ganzhi line -->
+    <div style="padding:16px 28px 6px;font-family:'Noto Serif SC',serif;color:#8C7C76;font-size:13px;letter-spacing:0.08em;">乙巳年 壬午月 丁卯日 · 属蛇</div>
+
+    <!-- almanac -->
+    <div style="padding:14px 28px 6px;display:flex;flex-direction:column;gap:14px;">
+      <x-import component-from-global-scope="CalendarDesignSystem_398bab.AlmanacItem" kind="good" items="{{ goodList }}" hint-size="100%,46px"></x-import>
+      <div style="height:1px;background:#EBE3DE;"></div>
+      <x-import component-from-global-scope="CalendarDesignSystem_398bab.AlmanacItem" kind="avoid" items="{{ avoidList }}" hint-size="100%,46px"></x-import>
+    </div>
+
+    <!-- blessing -->
+    <div style="padding:18px 28px 30px;">
+      <x-import component-from-global-scope="CalendarDesignSystem_398bab.BlessingCard" text="{{ blessing }}" label="今日祝福" hint-size="100%,200px"></x-import>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:500,&quot;height&quot;:760},&quot;blessing&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;愿你今日所求皆如愿，所行皆坦途。&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      goodList: ["祭祀", "祈福", "出行", "纳财", "开市"],
+      avoidList: ["动土", "破土", "安葬"],
+      blessing: this.props.blessing ?? "愿你今日所求皆如愿，所行皆坦途。",
+    };
+  }
+}
+</script>
+</body>
+</html>
