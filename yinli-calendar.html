@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="万年历">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>万年历 · 农历日历</title>
 <style>
@@ -193,16 +194,18 @@
 }
 
 html,body{margin:0;height:100%}
-body{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:32px;box-sizing:border-box;background:radial-gradient(circle at 50% 30%,#FBE9E2,#F0D8CE 70%);font-family:var(--font-sans)}
+body{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px;box-sizing:border-box;background:radial-gradient(circle at 50% 30%,#FBE9E2,#F0D8CE 70%);font-family:var(--font-sans)}
 @keyframes wnlSlide{from{transform:translateX(14px);opacity:0}to{transform:translateX(0);opacity:1}}
 *{-webkit-tap-highlight-color:transparent}
 ::-webkit-scrollbar{width:0;height:0}
 </style>
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/lunar-javascript@1.7.4/lunar.js"></script>
 </head>
 <body>
 <div id="root"></div>
+<script>window.WNL_DATA={widget:{solar:1,weekday:"",month:"",lunarDay:"",lunarMonth:"",zodiac:"",term:"",blessing:""}};</script>
 <script>
 /* @ds-bundle: {"format":3,"namespace":"CalendarDesignSystem_398bab","components":[{"name":"AlmanacItem","sourcePath":"components/calendar/AlmanacItem.jsx"},{"name":"BlessingCard","sourcePath":"components/calendar/BlessingCard.jsx"},{"name":"DateCell","sourcePath":"components/calendar/DateCell.jsx"},{"name":"LunarDate","sourcePath":"components/calendar/LunarDate.jsx"},{"name":"SealStamp","sourcePath":"components/calendar/SealStamp.jsx"},{"name":"Badge","sourcePath":"components/core/Badge.jsx"},{"name":"Button","sourcePath":"components/core/Button.jsx"},{"name":"Card","sourcePath":"components/core/Card.jsx"},{"name":"IconButton","sourcePath":"components/core/IconButton.jsx"},{"name":"SegMenu","sourcePath":"components/core/SegMenu.jsx"},{"name":"Switch","sourcePath":"components/core/Switch.jsx"},{"name":"Tag","sourcePath":"components/core/Tag.jsx"}],"sourceHashes":{"components/calendar/AlmanacItem.jsx":"041f792b7dd4","components/calendar/BlessingCard.jsx":"54ece1b1adaa","components/calendar/DateCell.jsx":"0bdcd597efc8","components/calendar/LunarDate.jsx":"a86aa2c7aab2","components/calendar/SealStamp.jsx":"23147d352559","components/core/Badge.jsx":"14335f1b4685","components/core/Button.jsx":"54cbe9794139","components/core/Card.jsx":"8e9292042089","components/core/IconButton.jsx":"62a0b1984f4d","components/core/SegMenu.jsx":"22dd3bdc96d6","components/core/Switch.jsx":"6798c7d72125","components/core/Tag.jsx":"30d62a44550e","ui_kits/calendar_app/App.jsx":"a13176ea25b1","ui_kits/calendar_app/DayScreen.jsx":"95b5a65359df","ui_kits/calendar_app/FestivalScreen.jsx":"29bcb1ef4fa2","ui_kits/calendar_app/Icons.jsx":"979878e8852a","ui_kits/calendar_app/MonthScreen.jsx":"cedda7ad00b0","ui_kits/calendar_app/Widgets.jsx":"5165494841a3","ui_kits/calendar_app/data.js":"8afaedf41bf2"},"inlinedExternals":[],"unexposedExports":[]} */
 
@@ -2482,106 +2485,6 @@ __ds_ns.Tag = __ds_scope.Tag;
 
 </script>
 <script>
-// Sample data for the 万年历 UI kit (June 2026 / 农历乙巳年).
-window.WNL_DATA = {
-  monthLabel: "2026年 6月",
-  lunarMonthLabel: "农历五月",
-  weekHeads: ["日", "一", "二", "三", "四", "五", "六"],
-  // grid: 6 weeks x 7. solar number, lunar label, flags.
-  // otherMonth days from May/July.
-  grid: [
-    { s: 31, l: "初六", other: true }, { s: 1, l: "初七" }, { s: 2, l: "初八" }, { s: 3, l: "初九" }, { s: 4, l: "初十" }, { s: 5, l: "芒种", festival: true }, { s: 6, l: "十二", rest: true },
-    { s: 7, l: "十三", rest: true }, { s: 8, l: "十四" }, { s: 9, l: "十五" }, { s: 10, l: "十六" }, { s: 11, l: "十七" }, { s: 12, l: "十八" }, { s: 13, l: "十九", rest: true },
-    { s: 14, l: "二十", rest: true }, { s: 15, l: "廿一" }, { s: 16, l: "廿二" }, { s: 17, l: "廿三", today: true }, { s: 18, l: "廿四" }, { s: 19, l: "廿五" }, { s: 20, l: "廿六", rest: true },
-    { s: 21, l: "夏至", festival: true, rest: true }, { s: 22, l: "廿八" }, { s: 23, l: "廿九" }, { s: 24, l: "六月" }, { s: 25, l: "初二" }, { s: 26, l: "初三" }, { s: 27, l: "初四", rest: true },
-    { s: 28, l: "初五", rest: true }, { s: 29, l: "初六" }, { s: 30, l: "初七" }, { s: 1, l: "初八", other: true }, { s: 2, l: "初九", other: true }, { s: 3, l: "初十", other: true }, { s: 4, l: "十一", other: true, rest: true },
-  ],
-  // per-day detail keyed by solar number (June)
-  details: {
-    17: {
-      weekday: "星期三",
-      lunarMonth: "五月", lunarDay: "廿三", zodiac: "蛇",
-      ganzhi: "乙巳年 壬午月 丁卯日",
-      festival: null,
-      term: null,
-      good: ["祭祀", "祈福", "出行", "纳财", "开市"],
-      avoid: ["动土", "破土", "安葬"],
-      blessing: "愿你今日所求皆如愿，所行皆坦途。",
-    },
-    21: {
-      weekday: "星期日",
-      lunarMonth: "五月", lunarDay: "廿七", zodiac: "蛇",
-      ganzhi: "乙巳年 壬午月 辛未日",
-      festival: null,
-      term: "夏至",
-      good: ["祭祀", "祈福", "斋醮", "沐浴"],
-      avoid: ["嫁娶", "动土", "出行"],
-      blessing: "夏至已至，愿你心静如水，清凉一夏。",
-    },
-    5: {
-      weekday: "星期五",
-      lunarMonth: "五月", lunarDay: "十一", zodiac: "蛇",
-      ganzhi: "乙巳年 壬午月 乙卯日",
-      festival: null,
-      term: "芒种",
-      good: ["播种", "栽种", "出行", "祈福"],
-      avoid: ["开仓", "安葬"],
-      blessing: "芒种时节，愿你勤耕不辍，岁岁有收成。",
-    },
-  },
-  blessings: [
-    { cat: "日常", text: "愿你今日所求皆如愿，所行皆坦途。" },
-    { cat: "日常", text: "晨起一杯茶，顺心又顺意。" },
-    { cat: "节气", text: "夏至已至，愿你心静如水，清凉一夏。" },
-    { cat: "祝福", text: "岁岁常欢愉，年年皆胜意。" },
-  ],
-  // festival / 节气 detail, keyed by name
-  festivals: {
-    "夏至": {
-      kind: "节气",
-      solar: "6月21日", weekday: "星期日",
-      lunar: "农历五月廿七",
-      index: "二十四节气 · 第 10 个",
-      seal: "夏",
-      summary: "夏至日，太阳直射北回归线，北半球白昼最长。自此入夏，暑气渐盛。",
-      hou: [
-        { name: "一候", text: "鹿角解" },
-        { name: "二候", text: "蝉始鸣" },
-        { name: "三候", text: "半夏生" },
-      ],
-      customs: ["祭神祀祖", "消夏避伏", "食夏至面"],
-      foods: ["凉面", "夏至面", "麦粽"],
-      blessing: "夏至已至，愿你心静如水，清凉一夏。",
-    },
-    "芒种": {
-      kind: "节气",
-      solar: "6月5日", weekday: "星期五",
-      lunar: "农历五月十一",
-      index: "二十四节气 · 第 9 个",
-      seal: "芒",
-      summary: "芒种时节，麦类等有芒作物成熟，亦是播种最忙的时候，故称“忙种”。",
-      hou: [
-        { name: "一候", text: "螳螂生" },
-        { name: "二候", text: "鵙始鸣" },
-        { name: "三候", text: "反舌无声" },
-      ],
-      customs: ["送花神", "安苗祈福", "煮青梅"],
-      foods: ["青梅", "君踏菜", "新麦"],
-      blessing: "芒种时节，愿你勤耕不辍，岁岁有收成。",
-    },
-  },
-
-  // home-screen widget readouts
-  widget: {
-    solar: 17, weekday: "星期三", month: "6月",
-    lunarDay: "廿三", lunarMonth: "五月", zodiac: "蛇",
-    term: "夏至 · 第5天",
-    blessing: "所求皆如愿，所行皆坦途。",
-  },
-};
-
-</script>
-<script>
 // Minimal Lucide icon set (real Lucide path data, 24x24, 1.75 stroke).
 // Exposes window.Icon — <Icon name="bell" size={20} />
 (function () {
@@ -2610,288 +2513,6 @@ window.WNL_DATA = {
     });
   }
   window.Icon = Icon;
-})();
-
-</script>
-<script>
-// MonthScreen — month grid view. Exposes window.MonthScreen.
-(function () {
-  const { IconButton, SegMenu, DateCell, Badge, SealStamp } = window.CalendarDesignSystem_398bab;
-  const Icon = window.Icon;
-  const D = window.WNL_DATA;
-
-  function BrandBar() {
-    return React.createElement("div", {
-      style: {
-        display: "flex", alignItems: "center", justifyContent: "space-between",
-        padding: "0 var(--sp-5)", height: 52, flex: "none",
-      },
-    },
-      React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 8 } },
-        React.createElement("span", {
-          style: { fontFamily: "var(--font-serif)", fontSize: 22, fontWeight: 900, color: "var(--text-strong)" },
-        }, D.monthLabel),
-        React.createElement("span", {
-          style: { fontFamily: "var(--font-sans)", fontSize: 13, color: "var(--text-muted)" },
-        }, D.lunarMonthLabel),
-      ),
-      React.createElement("div", { style: { display: "flex", gap: 4 } },
-        React.createElement(IconButton, { label: "搜索", variant: "ghost" }, React.createElement(Icon, { name: "search", size: 20, color: "var(--text-muted)" })),
-        React.createElement(IconButton, { label: "提醒", variant: "ghost" }, React.createElement(Icon, { name: "bell", size: 20, color: "var(--text-muted)" })),
-      ),
-    );
-  }
-
-  function MonthScreen({ onPick, view, setView }) {
-    return React.createElement("div", { style: { display: "flex", flexDirection: "column", height: "100%" } },
-      React.createElement(BrandBar),
-
-      // view switch + today
-      React.createElement("div", {
-        style: { display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 var(--sp-5) var(--sp-3)" },
-      },
-        React.createElement(SegMenu, { items: ["月", "周", "日"], value: view, onChange: setView }),
-        React.createElement("button", {
-          onClick: () => onPick(17),
-          style: {
-            display: "flex", alignItems: "center", gap: 5, padding: "7px 12px",
-            background: "var(--surface-card)", border: "1.5px solid var(--border-brand)",
-            borderRadius: "var(--r-pill)", color: "var(--brand)", fontFamily: "var(--font-sans)",
-            fontSize: 13, fontWeight: 700, cursor: "pointer",
-          },
-        },
-          React.createElement(Icon, { name: "calendar-days", size: 15 }), "今天"),
-      ),
-
-      // week heads
-      React.createElement("div", {
-        style: { display: "grid", gridTemplateColumns: "repeat(7,1fr)", padding: "0 var(--sp-4)", marginBottom: 2 },
-      },
-        D.weekHeads.map((w, i) => React.createElement("div", {
-          key: w,
-          style: {
-            textAlign: "center", fontSize: 12, fontWeight: 700, padding: "6px 0",
-            fontFamily: "var(--font-sans)",
-            color: (i === 0 || i === 6) ? "var(--brand)" : "var(--text-faint)",
-          },
-        }, w)),
-      ),
-
-      // grid
-      React.createElement("div", {
-        style: {
-          display: "grid", gridTemplateColumns: "repeat(7,1fr)", gap: 2,
-          padding: "0 var(--sp-4)", flex: 1, alignContent: "start",
-        },
-      },
-        D.grid.map((d, i) => React.createElement(DateCell, {
-          key: i, solar: d.s, lunar: d.l,
-          today: !!d.today, rest: !!d.rest, festival: !!d.festival, otherMonth: !!d.other,
-          onClick: () => !d.other && onPick(d.s),
-        })),
-      ),
-
-      // today peek strip
-      React.createElement("div", { style: { padding: "var(--sp-3) var(--sp-4) var(--sp-4)" } },
-        React.createElement("button", {
-          onClick: () => onPick(17),
-          style: {
-            width: "100%", display: "flex", alignItems: "center", gap: "var(--sp-3)", textAlign: "left",
-            padding: "var(--sp-4)", background: "var(--surface-brand-soft)",
-            border: "1px solid var(--border-brand)", borderRadius: "var(--r-lg)", cursor: "pointer",
-          },
-        },
-          React.createElement(SealStamp, { char: "福", size: 44 }),
-          React.createElement("div", { style: { flex: 1, minWidth: 0 } },
-            React.createElement("div", {
-              style: { fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", color: "var(--brand)", marginBottom: 3 },
-            }, "今日祝福"),
-            React.createElement("div", {
-              style: {
-                fontFamily: "var(--font-serif)", fontSize: 15, color: "var(--text-body)",
-                lineHeight: 1.45, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
-              },
-            }, D.widget.blessing),
-          ),
-          React.createElement(Icon, { name: "chevron-right", size: 20, color: "var(--brand)" }),
-        ),
-      ),
-    );
-  }
-
-  window.MonthScreen = MonthScreen;
-})();
-
-</script>
-<script>
-// DayScreen — day detail sheet. Exposes window.DayScreen.
-(function () {
-  const { IconButton, Badge, Card, AlmanacItem, BlessingCard, LunarDate, Button } =
-    window.CalendarDesignSystem_398bab;
-  const Icon = window.Icon;
-  const D = window.WNL_DATA;
-
-  function DayScreen({ solar, onBack, onFestival }) {
-    const d = D.details[solar] || D.details[17];
-    const festName = d.term || d.festival;
-    return React.createElement("div", {
-      style: { display: "flex", flexDirection: "column", height: "100%", background: "var(--surface-app)" },
-    },
-      // top bar
-      React.createElement("div", {
-        style: { display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 var(--sp-4)", height: 52, flex: "none" },
-      },
-        React.createElement(IconButton, { label: "返回", variant: "ghost", onClick: onBack },
-          React.createElement(Icon, { name: "chevron-left", size: 24, color: "var(--text-body)" })),
-        React.createElement("span", { style: { fontSize: 15, fontWeight: 700, fontFamily: "var(--font-sans)", color: "var(--text-strong)" } }, "日详情"),
-        React.createElement(IconButton, { label: "分享", variant: "ghost" },
-          React.createElement(Icon, { name: "share", size: 19, color: "var(--text-muted)" })),
-      ),
-
-      React.createElement("div", { style: { flex: 1, overflowY: "auto", padding: "0 var(--sp-4) var(--sp-6)" } },
-
-        // hero date
-        React.createElement(Card, { style: { display: "flex", alignItems: "center", gap: "var(--sp-5)", marginBottom: "var(--sp-4)" } },
-          React.createElement("div", { style: { textAlign: "center", flex: "none" } },
-            React.createElement("div", {
-              style: { fontFamily: "var(--font-serif)", fontSize: 64, fontWeight: 700, lineHeight: 1, color: "var(--brand)" },
-            }, solar),
-            React.createElement("div", { style: { fontSize: 12, color: "var(--text-muted)", marginTop: 2 } }, "6月 · " + d.weekday),
-          ),
-          React.createElement("div", { style: { width: 1, alignSelf: "stretch", background: "var(--border-subtle)", margin: "4px 0" } }),
-          React.createElement("div", { style: { flex: 1 } },
-            React.createElement(LunarDate, {
-              lunarMonth: d.lunarMonth, lunarDay: d.lunarDay, zodiac: d.zodiac, ganzhi: d.ganzhi,
-            }),
-            d.term && React.createElement("button", {
-              onClick: () => onFestival && onFestival(d.term),
-              style: { marginTop: 8, display: "inline-flex", alignItems: "center", gap: 4, background: "none", border: "none", padding: 0, cursor: "pointer" },
-            },
-              React.createElement(Badge, { tone: "info" }, d.term),
-              React.createElement("span", { style: { fontSize: 12, color: "var(--info)", fontWeight: 700 } }, "查看详情"),
-              React.createElement(Icon, { name: "chevron-right", size: 14, color: "var(--info)" })),
-          ),
-        ),
-
-        // almanac
-        React.createElement("div", { style: { fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", color: "var(--text-faint)", margin: "var(--sp-4) 0 var(--sp-2) 2px" } }, "今日黄历"),
-        React.createElement(Card, { style: { display: "flex", flexDirection: "column", gap: "var(--sp-4)", marginBottom: "var(--sp-4)" } },
-          React.createElement(AlmanacItem, { kind: "good", items: d.good }),
-          React.createElement("div", { style: { height: 1, background: "var(--border-subtle)" } }),
-          React.createElement(AlmanacItem, { kind: "avoid", items: d.avoid }),
-        ),
-
-        // blessing
-        React.createElement("div", { style: { fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", color: "var(--text-faint)", margin: "var(--sp-4) 0 var(--sp-2) 2px" } }, "每日祝福"),
-        React.createElement(BlessingCard, { text: d.blessing, style: { marginBottom: "var(--sp-4)" } }),
-        React.createElement("div", { style: { display: "flex", gap: "var(--sp-3)" } },
-          React.createElement(Button, { variant: "primary", block: true,
-            iconLeft: React.createElement(Icon, { name: "share", size: 17 }) }, "分享祝福"),
-          React.createElement(Button, { variant: "secondary", block: true,
-            iconLeft: React.createElement(Icon, { name: "star", size: 17 }) }, "收藏"),
-        ),
-      ),
-    );
-  }
-
-  window.DayScreen = DayScreen;
-})();
-
-</script>
-<script>
-// FestivalScreen — 节气 / 节日 detail. Exposes window.FestivalScreen.
-(function () {
-  const { IconButton, Card, Badge, BlessingCard, SealStamp, Button } =
-    window.CalendarDesignSystem_398bab;
-  const Icon = window.Icon;
-  const D = window.WNL_DATA;
-
-  function Section({ title, children }) {
-    return React.createElement("div", { style: { marginBottom: "var(--sp-4)" } },
-      React.createElement("div", {
-        style: { fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", color: "var(--text-faint)", margin: "0 0 var(--sp-2) 2px" },
-      }, title),
-      children,
-    );
-  }
-
-  function FestivalScreen({ name, onBack }) {
-    const f = D.festivals[name] || D.festivals["夏至"];
-    return React.createElement("div", {
-      style: { display: "flex", flexDirection: "column", height: "100%", background: "var(--surface-app)" },
-    },
-      // top bar (over red hero)
-      React.createElement("div", {
-        style: { display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 var(--sp-4)", height: 52, flex: "none", background: "var(--brand)" },
-      },
-        React.createElement(IconButton, { label: "返回", variant: "ghost", onClick: onBack },
-          React.createElement(Icon, { name: "chevron-left", size: 24, color: "#fff" })),
-        React.createElement("span", { style: { fontSize: 15, fontWeight: 700, fontFamily: "var(--font-sans)", color: "#fff" } }, f.kind),
-        React.createElement(IconButton, { label: "分享", variant: "ghost" },
-          React.createElement(Icon, { name: "share", size: 19, color: "#fff" })),
-      ),
-
-      React.createElement("div", { style: { flex: 1, overflowY: "auto" } },
-
-        // red hero
-        React.createElement("div", {
-          style: { background: "var(--brand)", borderBottom: "3px solid var(--accent)", padding: "var(--sp-2) var(--sp-5) var(--sp-6)", display: "flex", alignItems: "center", gap: "var(--sp-5)" },
-        },
-          React.createElement(SealStamp, { char: f.seal, size: 76, style: { background: "rgba(255,255,255,0.12)" } }),
-          React.createElement("div", null,
-            React.createElement("div", { style: { fontFamily: "var(--font-serif)", fontSize: 44, fontWeight: 900, color: "#fff", lineHeight: 1.05 } }, name),
-            React.createElement("div", { style: { color: "var(--accent-soft)", fontSize: 13, fontWeight: 700, marginTop: 6 } }, f.index),
-            React.createElement("div", { style: { color: "#fff", fontSize: 14, marginTop: 4 } }, f.solar + " · " + f.weekday + " · " + f.lunar),
-          ),
-        ),
-
-        React.createElement("div", { style: { padding: "var(--sp-5) var(--sp-4) var(--sp-6)" } },
-
-          // summary
-          React.createElement(Card, { style: { marginBottom: "var(--sp-4)" } },
-            React.createElement("p", { style: { margin: 0, fontFamily: "var(--font-serif)", fontSize: 16, lineHeight: "var(--lh-loose)", color: "var(--text-body)" } }, f.summary),
-          ),
-
-          // 三候
-          React.createElement(Section, { title: "三候" },
-            React.createElement("div", { style: { display: "flex", gap: "var(--sp-2)" } },
-              f.hou.map((h, i) => React.createElement(Card, {
-                key: i, padding: "var(--sp-4) var(--sp-2)",
-                style: { flex: 1, textAlign: "center" },
-              },
-                React.createElement("div", { style: { fontSize: 11, color: "var(--brand)", fontWeight: 700, marginBottom: 6 } }, h.name),
-                React.createElement("div", { style: { fontFamily: "var(--font-serif)", fontSize: 17, color: "var(--text-strong)", fontWeight: 700 } }, h.text),
-              )),
-            ),
-          ),
-
-          // 习俗
-          React.createElement(Section, { title: "节气习俗" },
-            React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: "var(--sp-2)" } },
-              f.customs.map((c, i) => React.createElement(Badge, { key: i, tone: "brand" }, c)),
-            ),
-          ),
-
-          // 食俗
-          React.createElement(Section, { title: "时令食俗" },
-            React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: "var(--sp-2)" } },
-              f.foods.map((c, i) => React.createElement(Badge, { key: i, tone: "gold" }, c)),
-            ),
-          ),
-
-          // blessing
-          React.createElement(Section, { title: "节气祝福" },
-            React.createElement(BlessingCard, { text: f.blessing, label: name + "祝福", seal: f.seal }),
-          ),
-
-          React.createElement(Button, { variant: "primary", block: true,
-            iconLeft: React.createElement(Icon, { name: "share", size: 17 }) }, "分享节气卡片"),
-        ),
-      ),
-    );
-  }
-
-  window.FestivalScreen = FestivalScreen;
 })();
 
 </script>
@@ -2991,143 +2612,351 @@ window.WNL_DATA = {
 
 </script>
 <script>
-// App — interactive phone shell tying the screens together. Exposes window.CalApp.
+// real-app.js — live 万年历 powered by lunar-javascript (real solar↔lunar, 节气, 黄历).
+// Exposes window.RealCalApp. Plain JS (React.createElement, no JSX).
 (function () {
   const DS = window.CalendarDesignSystem_398bab;
-  const { Card, BlessingCard, Switch, SealStamp, Badge } = DS;
+  const { DateCell, LunarDate, AlmanacItem, BlessingCard, SealStamp, Card, Badge, Button, IconButton, SegMenu, Switch } = DS;
   const Icon = window.Icon;
-  const D = window.WNL_DATA;
+  const Solar = window.Solar; // from lunar-javascript
 
-  function StatusBar({ dark }) {
-    const c = dark ? "#fff" : "var(--text-strong)";
-    return React.createElement("div", {
-      style: { height: 44, display: "flex", alignItems: "center", justifyContent: "space-between",
-        padding: "0 22px", flex: "none", color: c, fontFamily: "var(--font-sans)", fontSize: 14, fontWeight: 700 },
-    },
-      React.createElement("span", null, "9:41"),
-      React.createElement("span", { style: { display: "flex", gap: 5, alignItems: "center", fontSize: 12 } }, "●●● ▮"),
-    );
+  const h = React.createElement;
+  const WEEK = ["日", "一", "二", "三", "四", "五", "六"];
+
+  // ---- 24 节气 dataset (summary · 三候 · 祝福) ----
+  const JIEQI = {
+    "立春": { s: "春之始，东风送暖，万物复苏。", h: ["东风解冻", "蛰虫始振", "鱼陟负冰"], b: "一年之计在于春，愿你万象更新，诸事顺遂。" },
+    "雨水": { s: "降水渐增，草木萌动，春意渐浓。", h: ["獭祭鱼", "候雁北", "草木萌动"], b: "好雨知时节，愿你心田润泽，万事生发。" },
+    "惊蛰": { s: "春雷乍动，蛰虫惊醒，生机盎然。", h: ["桃始华", "仓庚鸣", "鹰化为鸠"], b: "春雷唤醒万物，愿你蓄势而发，前程似锦。" },
+    "春分": { s: "昼夜平分，寒暑均衡，春和景明。", h: ["玄鸟至", "雷乃发声", "始电"], b: "春分昼夜平，愿你心境安宁，进退从容。" },
+    "清明": { s: "气清景明，慎终追远，踏青寻芳。", h: ["桐始华", "田鼠化为鴽", "虹始见"], b: "清明时节，愿你不忘来路，亦见前程。" },
+    "谷雨": { s: "雨生百谷，春耕正忙，万物繁茂。", h: ["萍始生", "鸣鸠拂其羽", "戴胜降于桑"], b: "雨生百谷，愿你耕耘有获，岁岁丰盈。" },
+    "立夏": { s: "夏之始，绿肥红瘦，万物渐长。", h: ["蝼蝈鸣", "蚯蚓出", "王瓜生"], b: "立夏将至，愿你心怀热望，向阳而生。" },
+    "小满": { s: "麦粒渐满，将满未满，盈而不溢。", h: ["苦菜秀", "靡草死", "麦秋至"], b: "小满即安，愿你知足常乐，圆满自来。" },
+    "芒种": { s: "麦熟有芒，播种最忙，亦称忙种。", h: ["螳螂生", "鵙始鸣", "反舌无声"], b: "芒种时节，愿你勤耕不辍，岁岁有收成。" },
+    "夏至": { s: "日北至，昼最长，暑气渐盛。", h: ["鹿角解", "蝉始鸣", "半夏生"], b: "夏至已至，愿你心静如水，清凉一夏。" },
+    "小暑": { s: "暑气渐升，温风始至，盛夏将临。", h: ["温风至", "蟋蟀居壁", "鹰始鸷"], b: "小暑微凉，愿你心安神定，悠然度夏。" },
+    "大暑": { s: "一年最热，雨热同期，万物丰长。", h: ["腐草为萤", "土润溽暑", "大雨时行"], b: "大暑酷热，愿你心生清凉，安然自在。" },
+    "立秋": { s: "秋之始，凉风渐至，暑去凉来。", h: ["凉风至", "白露降", "寒蝉鸣"], b: "立秋将至，愿你收获满满，秋实累累。" },
+    "处暑": { s: "暑气至此而止，秋意渐显。", h: ["鹰乃祭鸟", "天地始肃", "禾乃登"], b: "处暑送暑，愿你卸下烦忧，清爽前行。" },
+    "白露": { s: "露凝而白，昼夜温差渐大。", h: ["鸿雁来", "玄鸟归", "群鸟养羞"], b: "白露生凉，愿你添衣加暖，珍重安康。" },
+    "秋分": { s: "昼夜再均分，秋色平分，秋高气爽。", h: ["雷始收声", "蛰虫坯户", "水始涸"], b: "秋分平分，愿你得失两衡，心境澄明。" },
+    "寒露": { s: "露气寒冷，将凝为霜，深秋已至。", h: ["鸿雁来宾", "雀入大水为蛤", "菊有黄华"], b: "寒露渐深，愿你心有暖意，岁月从容。" },
+    "霜降": { s: "天气渐寒，初霜始降，秋之尾声。", h: ["豺乃祭兽", "草木黄落", "蛰虫咸俯"], b: "霜降秋深，愿你霜重色愈浓，履霜更坚毅。" },
+    "立冬": { s: "冬之始，万物收藏，蓄养待春。", h: ["水始冰", "地始冻", "雉入大水为蜃"], b: "立冬将至，愿你养精蓄锐，静待花开。" },
+    "小雪": { s: "气寒将雪，地寒未甚，初雪轻盈。", h: ["虹藏不见", "天气上升地气下降", "闭塞而成冬"], b: "小雪初临，愿你围炉煮茶，温暖如初。" },
+    "大雪": { s: "雪盛于此，天寒地冻，银装素裹。", h: ["鹖鴠不鸣", "虎始交", "荔挺出"], b: "大雪纷飞，愿你冬藏有暖，岁末安宁。" },
+    "冬至": { s: "日南至，昼最短，数九寒天起。", h: ["蚯蚓结", "麋角解", "水泉动"], b: "冬至阳生，愿你苦尽甘来，否极泰来。" },
+    "小寒": { s: "寒气渐盛，将寒未极，岁末严冬。", h: ["雁北乡", "鹊始巢", "雉始雊"], b: "小寒料峭，愿你心藏暖阳，安稳过冬。" },
+    "大寒": { s: "一年最冷，冬之终章，静待春归。", h: ["鸡始乳", "征鸟厉疾", "水泽腹坚"], b: "大寒已极，愿你守得云开，春暖将至。" },
+  };
+
+  const BLESSINGS = [
+    "愿你今日所求皆如愿，所行皆坦途。",
+    "晨起一杯茶，顺心又顺意。",
+    "岁岁常欢愉，年年皆胜意。",
+    "愿你眼里有光，心中有暖。",
+    "今日无大事，平安即是福。",
+    "愿你脚步从容，前路皆是好风景。",
+    "心安即是归处，所遇皆是温柔。",
+    "愿你忙而不乱，闲而不空。",
+    "一日清闲一日福，愿你常得自在。",
+    "愿你被这世界温柔以待，也温柔待人。",
+    "万事顺遂，未来可期。",
+    "愿你今夜好眠，明日好运。",
+  ];
+
+  const sameYmd = (a, b) => a && b && a.y === b.y && a.m === b.m && a.d === b.d;
+  const todayObj = () => { const n = new Date(); return { y: n.getFullYear(), m: n.getMonth() + 1, d: n.getDate() }; };
+
+  // Compute display info for a solar y/m/d
+  function dayInfo(y, m, d) {
+    const sol = Solar.fromYmd(y, m, d);
+    const lun = sol.getLunar();
+    const week = sol.getWeek();
+    const jq = lun.getJieQi();
+    const lf = lun.getFestivals();
+    const sf = sol.getFestivals();
+    let label = lun.getDayInChinese();
+    let festival = false;
+    if (lun.getDay() === 1) label = lun.getMonthInChinese() + "月";
+    if (lf && lf.length) { label = lf[0]; festival = true; }
+    else if (sf && sf.length) { label = sf[0]; festival = true; }
+    if (jq) { label = jq; festival = true; }
+    return {
+      sol, lun, week, jq,
+      festName: (lf && lf[0]) || (sf && sf[0]) || null,
+      label, festival,
+      rest: week === 0 || week === 6,
+    };
   }
 
-  function TabBar({ tab, setTab }) {
-    const tabs = [
-      { k: "month", label: "日历", icon: "calendar-days" },
-      { k: "bless", label: "祝福", icon: "sparkles" },
-      { k: "widget", label: "组件", icon: "home" },
-      { k: "me", label: "我的", icon: "user" },
-    ];
-    return React.createElement("div", {
-      style: { display: "flex", flex: "none", borderTop: "1px solid var(--border-subtle)",
-        background: "rgba(255,251,248,0.92)", backdropFilter: "blur(12px)", paddingBottom: "var(--safe-bottom)" },
-    },
-      tabs.map((t) => {
-        const on = tab === t.k;
-        return React.createElement("button", {
-          key: t.k, onClick: () => setTab(t.k),
-          style: { flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 3,
-            padding: "9px 0", background: "none", border: "none", cursor: "pointer",
-            color: on ? "var(--brand)" : "var(--text-faint)" },
-        },
-          React.createElement(Icon, { name: t.icon, size: 22, color: on ? "var(--brand)" : "var(--text-faint)" }),
-          React.createElement("span", { style: { fontSize: 10, fontWeight: 700, fontFamily: "var(--font-sans)" } }, t.label),
-        );
-      }),
-    );
+  function pickBlessing(info) {
+    if (info.jq && JIEQI[info.jq]) return JIEQI[info.jq].b;
+    const dn = info.sol.getYear() * 372 + info.sol.getMonth() * 31 + info.sol.getDay();
+    return BLESSINGS[dn % BLESSINGS.length];
   }
 
-  function BlessingsScreen() {
-    return React.createElement("div", { style: { height: "100%", overflowY: "auto", padding: "var(--sp-5)" } },
-      React.createElement("div", { style: { fontFamily: "var(--font-serif)", fontSize: 24, fontWeight: 900, color: "var(--text-strong)", marginBottom: 4 } }, "祝福"),
-      React.createElement("div", { style: { fontSize: 13, color: "var(--text-muted)", marginBottom: 18 } }, "每日一句，宜分享亲友"),
-      React.createElement(BlessingCard, { text: D.blessings[0].text, style: { marginBottom: 16 } }),
-      React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
-        D.blessings.slice(1).map((b, i) =>
-          React.createElement(Card, { key: i, style: { display: "flex", alignItems: "center", gap: 14 } },
-            React.createElement(Badge, { tone: i === 1 ? "info" : "gold" }, b.cat),
-            React.createElement("span", { style: { fontFamily: "var(--font-serif)", fontSize: 16, color: "var(--text-body)", lineHeight: 1.5, flex: 1 } }, b.text),
-            React.createElement(Icon, { name: "share", size: 17, color: "var(--text-faint)" }),
+  function buildGrid(y, m) {
+    const startWeek = Solar.fromYmd(y, m, 1).getWeek();
+    const daysInMonth = new Date(y, m, 0).getDate();
+    const prevLast = new Date(y, m - 1, 0).getDate();
+    const cells = [];
+    for (let i = 0; i < startWeek; i++) {
+      const dd = prevLast - startWeek + 1 + i;
+      const pm = m === 1 ? 12 : m - 1, py = m === 1 ? y - 1 : y;
+      cells.push({ y: py, m: pm, d: dd, other: true });
+    }
+    for (let d = 1; d <= daysInMonth; d++) cells.push({ y, m, d, other: false });
+    let nd = 1;
+    while (cells.length < 42) {
+      const nm = m === 12 ? 1 : m + 1, ny = m === 12 ? y + 1 : y;
+      cells.push({ y: ny, m: nm, d: nd++, other: true });
+    }
+    return cells;
+  }
+
+  // ---------- Month screen ----------
+  function MonthScreen(p) {
+    const { cursor, setCursor, onPick } = p;
+    const today = todayObj();
+    const cells = buildGrid(cursor.y, cursor.m);
+    const headLun = Solar.fromYmd(cursor.y, cursor.m, 1).getLunar();
+    const todayInfo = dayInfo(today.y, today.m, today.d);
+    const shift = (delta) => {
+      let mm = cursor.m + delta, yy = cursor.y;
+      if (mm < 1) { mm = 12; yy--; } if (mm > 12) { mm = 1; yy++; }
+      setCursor({ y: yy, m: mm });
+    };
+    return h("div", { style: { display: "flex", flexDirection: "column", height: "100%" } },
+      // brand bar
+      h("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 var(--sp-5)", height: 52, flex: "none" } },
+        h("div", { style: { display: "flex", alignItems: "baseline", gap: 8 } },
+          h("span", { style: { fontFamily: "var(--font-serif)", fontSize: 22, fontWeight: 900, color: "var(--text-strong)" } }, cursor.y + "年 " + cursor.m + "月"),
+          h("span", { style: { fontSize: 13, color: "var(--text-muted)" } }, headLun.getYearInGanZhi() + headLun.getYearShengXiao() + "年"),
+        ),
+        h("div", { style: { display: "flex", gap: 2, alignItems: "center" } },
+          h(IconButton, { label: "上个月", variant: "ghost", onClick: () => shift(-1) }, h(Icon, { name: "chevron-left", size: 22, color: "var(--text-muted)" })),
+          h(IconButton, { label: "下个月", variant: "ghost", onClick: () => shift(1) }, h(Icon, { name: "chevron-right", size: 22, color: "var(--text-muted)" })),
+        ),
+      ),
+      // today button row
+      h("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 var(--sp-5) var(--sp-3)" } },
+        h(SegMenu, { items: ["月", "周", "日"], value: p.view, onChange: p.setView }),
+        h("button", { onClick: () => { setCursor({ y: today.y, m: today.m }); onPick(today); },
+          style: { display: "flex", alignItems: "center", gap: 5, padding: "7px 12px", background: "var(--surface-card)", border: "1.5px solid var(--border-brand)", borderRadius: "var(--r-pill)", color: "var(--brand)", fontFamily: "var(--font-sans)", fontSize: 13, fontWeight: 700, cursor: "pointer" } },
+          h(Icon, { name: "calendar-days", size: 15 }), "今天"),
+      ),
+      // week heads
+      h("div", { style: { display: "grid", gridTemplateColumns: "repeat(7,1fr)", padding: "0 var(--sp-4)", marginBottom: 2 } },
+        WEEK.map((w, i) => h("div", { key: w, style: { textAlign: "center", fontSize: 12, fontWeight: 700, padding: "6px 0", color: (i === 0 || i === 6) ? "var(--brand)" : "var(--text-faint)" } }, w)),
+      ),
+      // grid
+      h("div", { style: { display: "grid", gridTemplateColumns: "repeat(7,1fr)", gap: 2, padding: "0 var(--sp-4)", flex: 1, alignContent: "start" } },
+        cells.map((c, i) => {
+          const info = dayInfo(c.y, c.m, c.d);
+          return h(DateCell, { key: i, solar: c.d, lunar: info.label,
+            today: !c.other && sameYmd(c, today), selected: false,
+            rest: info.rest, festival: info.festival, otherMonth: c.other,
+            onClick: () => !c.other && onPick(c) });
+        }),
+      ),
+      // today peek
+      h("div", { style: { padding: "var(--sp-3) var(--sp-4) var(--sp-4)" } },
+        h("button", { onClick: () => onPick(today),
+          style: { width: "100%", display: "flex", alignItems: "center", gap: "var(--sp-3)", textAlign: "left", padding: "var(--sp-4)", background: "var(--surface-brand-soft)", border: "1px solid var(--border-brand)", borderRadius: "var(--r-lg)", cursor: "pointer" } },
+          h(SealStamp, { char: "福", size: 44 }),
+          h("div", { style: { flex: 1, minWidth: 0 } },
+            h("div", { style: { fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", color: "var(--brand)", marginBottom: 3 } }, "今日 · 农历" + todayInfo.lun.getMonthInChinese() + "月" + todayInfo.lun.getDayInChinese()),
+            h("div", { style: { fontFamily: "var(--font-serif)", fontSize: 15, color: "var(--text-body)", lineHeight: 1.45, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" } }, pickBlessing(todayInfo)),
           ),
+          h(Icon, { name: "chevron-right", size: 20, color: "var(--brand)" }),
         ),
       ),
     );
   }
 
-  function SettingRow({ label, sub, checked, onChange }) {
-    return React.createElement("div", {
-      style: { display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 0" },
-    },
-      React.createElement("div", null,
-        React.createElement("div", { style: { fontSize: 15, color: "var(--text-strong)", fontWeight: 500 } }, label),
-        sub && React.createElement("div", { style: { fontSize: 12, color: "var(--text-faint)", marginTop: 2 } }, sub),
+  // ---------- Day detail ----------
+  function DayScreen(p) {
+    const { date, onBack, onFestival } = p;
+    const info = dayInfo(date.y, date.m, date.d);
+    const lun = info.lun;
+    const good = (lun.getDayYi() || []).slice(0, 9);
+    const avoid = (lun.getDayJi() || []).slice(0, 9);
+    const weekday = "星期" + info.sol.getWeekInChinese();
+    return h("div", { style: { display: "flex", flexDirection: "column", height: "100%", background: "var(--surface-app)" } },
+      h("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 var(--sp-4)", height: 52, flex: "none" } },
+        h(IconButton, { label: "返回", variant: "ghost", onClick: onBack }, h(Icon, { name: "chevron-left", size: 24, color: "var(--text-body)" })),
+        h("span", { style: { fontSize: 15, fontWeight: 700, color: "var(--text-strong)" } }, "日详情"),
+        h(IconButton, { label: "分享", variant: "ghost" }, h(Icon, { name: "share", size: 19, color: "var(--text-muted)" })),
       ),
-      React.createElement(Switch, { checked, onChange }),
+      h("div", { style: { flex: 1, overflowY: "auto", padding: "0 var(--sp-4) var(--sp-6)" } },
+        h(Card, { style: { display: "flex", alignItems: "center", gap: "var(--sp-5)", marginBottom: "var(--sp-4)" } },
+          h("div", { style: { textAlign: "center", flex: "none" } },
+            h("div", { style: { fontFamily: "var(--font-serif)", fontSize: 64, fontWeight: 700, lineHeight: 1, color: "var(--brand)" } }, date.d),
+            h("div", { style: { fontSize: 12, color: "var(--text-muted)", marginTop: 2 } }, date.m + "月 · " + weekday),
+          ),
+          h("div", { style: { width: 1, alignSelf: "stretch", background: "var(--border-subtle)", margin: "4px 0" } }),
+          h("div", { style: { flex: 1 } },
+            h(LunarDate, { lunarMonth: lun.getMonthInChinese() + "月", lunarDay: lun.getDayInChinese(), zodiac: lun.getYearShengXiao(),
+              ganzhi: lun.getYearInGanZhi() + "年 " + lun.getMonthInGanZhi() + "月 " + lun.getDayInGanZhi() + "日" }),
+            (info.jq || info.festName) && h("div", { style: { display: "flex", gap: 6, marginTop: 8, flexWrap: "wrap" } },
+              info.jq && h("button", { onClick: () => onFestival(info), style: { display: "inline-flex", alignItems: "center", gap: 4, background: "none", border: "none", padding: 0, cursor: "pointer" } },
+                h(Badge, { tone: "info" }, info.jq), h("span", { style: { fontSize: 12, color: "var(--info)", fontWeight: 700 } }, "详情"), h(Icon, { name: "chevron-right", size: 13, color: "var(--info)" })),
+              info.festName && h(Badge, { tone: "gold" }, info.festName),
+            ),
+          ),
+        ),
+        h("div", { style: { fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", color: "var(--text-faint)", margin: "var(--sp-4) 0 var(--sp-2) 2px" } }, "今日黄历"),
+        h(Card, { style: { display: "flex", flexDirection: "column", gap: "var(--sp-4)", marginBottom: "var(--sp-4)" } },
+          h(AlmanacItem, { kind: "good", items: good }),
+          h("div", { style: { height: 1, background: "var(--border-subtle)" } }),
+          h(AlmanacItem, { kind: "avoid", items: avoid }),
+        ),
+        h("div", { style: { fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", color: "var(--text-faint)", margin: "var(--sp-4) 0 var(--sp-2) 2px" } }, "每日祝福"),
+        h(BlessingCard, { text: pickBlessing(info), style: { marginBottom: "var(--sp-4)" } }),
+        h("div", { style: { display: "flex", gap: "var(--sp-3)" } },
+          h(Button, { variant: "primary", block: true, iconLeft: h(Icon, { name: "share", size: 17 }) }, "分享祝福"),
+          h(Button, { variant: "secondary", block: true, iconLeft: h(Icon, { name: "star", size: 17 }) }, "收藏"),
+        ),
+      ),
+    );
+  }
+
+  // ---------- Festival / 节气 ----------
+  function FestivalScreen(p) {
+    const { info, onBack } = p;
+    const name = info.jq;
+    const jq = JIEQI[name] || { s: "", h: [], b: pickBlessing(info) };
+    const lun = info.lun;
+    return h("div", { style: { display: "flex", flexDirection: "column", height: "100%", background: "var(--surface-app)" } },
+      h("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 var(--sp-4)", height: 52, flex: "none", background: "var(--brand)" } },
+        h(IconButton, { label: "返回", variant: "ghost", onClick: onBack }, h(Icon, { name: "chevron-left", size: 24, color: "#fff" })),
+        h("span", { style: { fontSize: 15, fontWeight: 700, color: "#fff" } }, "节气"),
+        h(IconButton, { label: "分享", variant: "ghost" }, h(Icon, { name: "share", size: 19, color: "#fff" })),
+      ),
+      h("div", { style: { flex: 1, overflowY: "auto" } },
+        h("div", { style: { background: "var(--brand)", borderBottom: "3px solid var(--accent)", padding: "var(--sp-2) var(--sp-5) var(--sp-6)", display: "flex", alignItems: "center", gap: "var(--sp-5)" } },
+          h(SealStamp, { char: name[0], size: 76, style: { background: "rgba(255,255,255,0.12)" } }),
+          h("div", null,
+            h("div", { style: { fontFamily: "var(--font-serif)", fontSize: 44, fontWeight: 900, color: "#fff", lineHeight: 1.05 } }, name),
+            h("div", { style: { color: "var(--accent-soft)", fontSize: 13, fontWeight: 700, marginTop: 6 } }, "二十四节气"),
+            h("div", { style: { color: "#fff", fontSize: 14, marginTop: 4 } }, info.sol.getMonth() + "月" + info.sol.getDay() + "日 · 星期" + info.sol.getWeekInChinese() + " · 农历" + lun.getMonthInChinese() + "月" + lun.getDayInChinese()),
+          ),
+        ),
+        h("div", { style: { padding: "var(--sp-5) var(--sp-4) var(--sp-6)" } },
+          jq.s && h(Card, { style: { marginBottom: "var(--sp-4)" } }, h("p", { style: { margin: 0, fontFamily: "var(--font-serif)", fontSize: 16, lineHeight: "var(--lh-loose)", color: "var(--text-body)" } }, jq.s)),
+          jq.h.length === 3 && h("div", { style: { marginBottom: "var(--sp-4)" } },
+            h("div", { style: { fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", color: "var(--text-faint)", margin: "0 0 var(--sp-2) 2px" } }, "三候"),
+            h("div", { style: { display: "flex", gap: "var(--sp-2)" } },
+              jq.h.map((hh, i) => h(Card, { key: i, padding: "var(--sp-4) var(--sp-1)", style: { flex: 1, textAlign: "center" } },
+                h("div", { style: { fontSize: 11, color: "var(--brand)", fontWeight: 700, marginBottom: 6 } }, ["一候", "二候", "三候"][i]),
+                h("div", { style: { fontFamily: "var(--font-serif)", fontSize: 14, color: "var(--text-strong)", fontWeight: 700 } }, hh))),
+            ),
+          ),
+          h("div", { style: { fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", color: "var(--text-faint)", margin: "0 0 var(--sp-2) 2px" } }, "节气祝福"),
+          h(BlessingCard, { text: jq.b, label: name + "祝福", seal: name[0] }),
+        ),
+      ),
+    );
+  }
+
+  // ---------- simple Bless + Me tabs ----------
+  function BlessScreen() {
+    const t = todayObj(); const info = dayInfo(t.y, t.m, t.d);
+    const extra = [BLESSINGS[(t.d) % BLESSINGS.length], BLESSINGS[(t.d + 3) % BLESSINGS.length], BLESSINGS[(t.d + 6) % BLESSINGS.length]];
+    return h("div", { style: { height: "100%", overflowY: "auto", padding: "var(--sp-5)" } },
+      h("div", { style: { fontFamily: "var(--font-serif)", fontSize: 24, fontWeight: 900, color: "var(--text-strong)", marginBottom: 4 } }, "祝福"),
+      h("div", { style: { fontSize: 13, color: "var(--text-muted)", marginBottom: 18 } }, "每日一句，宜分享亲友"),
+      h(BlessingCard, { text: pickBlessing(info), style: { marginBottom: 16 } }),
+      h("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
+        extra.map((b, i) => h(Card, { key: i, style: { display: "flex", alignItems: "center", gap: 14 } },
+          h(Badge, { tone: i === 0 ? "gold" : "brand" }, "祝福"),
+          h("span", { style: { fontFamily: "var(--font-serif)", fontSize: 16, color: "var(--text-body)", lineHeight: 1.5, flex: 1 } }, b),
+          h(Icon, { name: "share", size: 17, color: "var(--text-faint)" }))),
+      ),
     );
   }
 
   function MeScreen() {
-    const [a, setA] = React.useState(true);
-    const [b, setB] = React.useState(true);
-    const [c, setC] = React.useState(false);
-    return React.createElement("div", { style: { height: "100%", overflowY: "auto", padding: "var(--sp-5)" } },
-      React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 14, marginBottom: 20 } },
-        React.createElement(SealStamp, { char: "历", size: 56 }),
-        React.createElement("div", null,
-          React.createElement("div", { style: { fontFamily: "var(--font-serif)", fontSize: 22, fontWeight: 900, color: "var(--text-strong)" } }, "万年历"),
-          React.createElement("div", { style: { fontSize: 12, color: "var(--text-muted)", marginTop: 2 } }, "乙巳蛇年 · 同步农历黄历"),
-        ),
-      ),
-      React.createElement(Card, { padding: "var(--sp-2) var(--sp-5)" },
-        React.createElement(SettingRow, { label: "显示农历", sub: "在日期格内展示农历", checked: a, onChange: setA }),
-        React.createElement("div", { style: { height: 1, background: "var(--border-subtle)" } }),
-        React.createElement(SettingRow, { label: "节假日提醒", sub: "法定节假日与调休", checked: b, onChange: setB }),
-        React.createElement("div", { style: { height: 1, background: "var(--border-subtle)" } }),
-        React.createElement(SettingRow, { label: "每日祝福推送", sub: "每天 8:00 推送", checked: c, onChange: setC }),
-      ),
+    const [a, setA] = React.useState(true), [b, setB] = React.useState(true), [c, setC] = React.useState(false);
+    const t = todayObj(); const lun = Solar.fromYmd(t.y, t.m, t.d).getLunar();
+    const Row = (label, sub, val, set) => h("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 0" } },
+      h("div", null, h("div", { style: { fontSize: 15, color: "var(--text-strong)", fontWeight: 500 } }, label), h("div", { style: { fontSize: 12, color: "var(--text-faint)", marginTop: 2 } }, sub)),
+      h(Switch, { checked: val, onChange: set }));
+    return h("div", { style: { height: "100%", overflowY: "auto", padding: "var(--sp-5)" } },
+      h("div", { style: { display: "flex", alignItems: "center", gap: 14, marginBottom: 20 } },
+        h(SealStamp, { char: "历", size: 56 }),
+        h("div", null,
+          h("div", { style: { fontFamily: "var(--font-serif)", fontSize: 22, fontWeight: 900, color: "var(--text-strong)" } }, "万年历"),
+          h("div", { style: { fontSize: 12, color: "var(--text-muted)", marginTop: 2 } }, lun.getYearInGanZhi() + lun.getYearShengXiao() + "年 · 实时农历黄历"))),
+      h(Card, { padding: "var(--sp-2) var(--sp-5)" },
+        Row("显示农历", "在日期格内展示农历", a, setA),
+        h("div", { style: { height: 1, background: "var(--border-subtle)" } }),
+        Row("节假日提醒", "法定节假日与调休", b, setB),
+        h("div", { style: { height: 1, background: "var(--border-subtle)" } }),
+        Row("每日祝福推送", "每天 8:00 推送", c, setC)),
     );
   }
 
-  function CalApp() {
+  function TabBar(p) {
+    const tabs = [{ k: "month", label: "日历", icon: "calendar-days" }, { k: "bless", label: "祝福", icon: "sparkles" }, { k: "widget", label: "组件", icon: "home" }, { k: "me", label: "我的", icon: "user" }];
+    return h("div", { style: { display: "flex", flex: "none", borderTop: "1px solid var(--border-subtle)", background: "rgba(255,251,248,0.92)", backdropFilter: "blur(12px)", paddingBottom: "var(--safe-bottom)" } },
+      tabs.map((t) => { const on = p.tab === t.k;
+        return h("button", { key: t.k, onClick: () => p.setTab(t.k), style: { flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 3, padding: "9px 0", background: "none", border: "none", cursor: "pointer", color: on ? "var(--brand)" : "var(--text-faint)" } },
+          h(Icon, { name: t.icon, size: 22, color: on ? "var(--brand)" : "var(--text-faint)" }),
+          h("span", { style: { fontSize: 10, fontWeight: 700 } }, t.label)); }),
+    );
+  }
+
+  function StatusBar() {
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2, "0") + ":" + String(now.getMinutes()).padStart(2, "0");
+    return h("div", { style: { height: 44, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 22px", flex: "none", color: "var(--text-strong)", fontSize: 14, fontWeight: 700 } },
+      h("span", null, hh), h("span", { style: { fontSize: 12 } }, "●●● ▮"));
+  }
+
+  function RealCalApp() {
+    const today = todayObj();
     const [tab, setTab] = React.useState("month");
     const [view, setView] = React.useState("月");
-    const [day, setDay] = React.useState(null); // selected solar -> overlay
-    const [fest, setFest] = React.useState(null); // festival/term name -> overlay
+    const [cursor, setCursor] = React.useState({ y: today.y, m: today.m });
+    const [date, setDate] = React.useState(null);   // day detail
+    const [fest, setFest] = React.useState(null);    // festival info
 
-    const dark = false;
     let body;
-    if (tab === "month") body = React.createElement(window.MonthScreen, { onPick: setDay, view, setView });
-    else if (tab === "bless") body = React.createElement(BlessingsScreen);
-    else if (tab === "widget") body = React.createElement(window.WidgetsScreen);
-    else body = React.createElement(MeScreen);
+    if (tab === "month") body = h(MonthScreen, { cursor, setCursor, view, setView, onPick: setDate });
+    else if (tab === "bless") body = h(BlessScreen);
+    else if (tab === "widget") body = h(window.WidgetsScreen);
+    else body = h(MeScreen);
 
-    return React.createElement("div", {
-      style: { width: "var(--app-width)", height: 844, background: "var(--surface-app)",
-        borderRadius: 44, overflow: "hidden", boxShadow: "0 30px 80px rgba(94,12,16,0.28)",
-        border: "10px solid #1b1310", display: "flex", flexDirection: "column", position: "relative" },
-    },
-      React.createElement(StatusBar, { dark }),
-      React.createElement("div", { style: { flex: 1, overflow: "hidden", position: "relative" } },
+    return h("div", { style: { width: "var(--app-width)", height: 844, background: "var(--surface-app)", borderRadius: 44, overflow: "hidden", boxShadow: "0 30px 80px rgba(94,12,16,0.28)", border: "10px solid #1b1310", display: "flex", flexDirection: "column", position: "relative" } },
+      h(StatusBar),
+      h("div", { style: { flex: 1, overflow: "hidden", position: "relative" } },
         body,
-        // day detail overlay
-        day !== null && React.createElement("div", {
-          style: { position: "absolute", inset: 0, background: "var(--surface-app)",
-            animation: "wnlSlide var(--dur-base) var(--ease-out)" },
-        }, React.createElement(window.DayScreen, { solar: day, onBack: () => setDay(null), onFestival: setFest })),
-        // festival detail overlay (above day detail)
-        fest !== null && React.createElement("div", {
-          style: { position: "absolute", inset: 0, background: "var(--surface-app)",
-            animation: "wnlSlide var(--dur-base) var(--ease-out)" },
-        }, React.createElement(window.FestivalScreen, { name: fest, onBack: () => setFest(null) })),
+        date && h("div", { style: { position: "absolute", inset: 0, background: "var(--surface-app)", animation: "wnlSlide var(--dur-base) var(--ease-out)" } },
+          h(DayScreen, { date, onBack: () => setDate(null), onFestival: setFest })),
+        fest && h("div", { style: { position: "absolute", inset: 0, background: "var(--surface-app)", animation: "wnlSlide var(--dur-base) var(--ease-out)" } },
+          h(FestivalScreen, { info: fest, onBack: () => setFest(null) })),
       ),
-      React.createElement(TabBar, { tab, setTab }),
+      h(TabBar, { tab, setTab }),
     );
   }
 
-  window.CalApp = CalApp;
+  window.RealCalApp = RealCalApp;
 })();
 
 </script>
 <script>
-(function mount(){ if(!window.CalApp){return setTimeout(mount,30);} ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(window.CalApp)); })();
+(function(){
+  try {
+    var n=new Date(), s=Solar.fromYmd(n.getFullYear(),n.getMonth()+1,n.getDate()), l=s.getLunar();
+    window.WNL_DATA.widget={solar:s.getDay(),weekday:"星期"+s.getWeekInChinese(),month:(s.getMonth())+"月",
+      lunarDay:l.getDayInChinese(),lunarMonth:l.getMonthInChinese()+"月",zodiac:l.getYearShengXiao(),
+      term:(l.getJieQi()||("农历"+l.getMonthInChinese()+"月")),blessing:"愿你今日所求皆如愿，所行皆坦途。"};
+  } catch(e){ console.warn(e); }
+})();
+(function mount(){ if(!window.RealCalApp||!window.Solar){return setTimeout(mount,30);} ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(window.RealCalApp)); })();
 </script>
 </body>
 </html>
